@@ -15,24 +15,21 @@ import { unstable_noStore } from "next/cache";
 import { useAsyncList } from "@react-stately/data";
 import WeatherCard from "./weatherCard";
 
-type WeatherItem = {
+type CardLog = {
+  id: "string;";
   weather_station: "string";
-  temperature: "number";
-  humidity: "number";
-  pressure: "number";
+  employee: "string";
   date: "string";
 };
 
 type Item = {
-  [key: string]: string | number | Date;
+  [key: string]: string | string | Date;
 };
 
-export default function WeatherStationData({ res }: { res: any }) {
-  const data = res.weather_data;
+export default function CardLogsTable({ data }: { data: CardLog[] }) {
   const [page, setPage] = React.useState(1);
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
   const pages = Math.ceil(data.length / rowsPerPage);
-  const [latestReading, setLatestReading] = useState<WeatherItem>(data[0]);
 
   let list = useAsyncList<Item>({
     async load({ signal }) {
@@ -88,11 +85,6 @@ export default function WeatherStationData({ res }: { res: any }) {
 
   return (
     <>
-      <div className="flex justify-between py-10">
-        <WeatherCard name="Temperature" value={latestReading.temperature} />
-        <WeatherCard name="Humidity" value={latestReading.humidity} />
-        <WeatherCard name="Pressure" value={latestReading.pressure} />
-      </div>
       <Table
         aria-label="Weather station data"
         className="pb-6"
@@ -116,17 +108,17 @@ export default function WeatherStationData({ res }: { res: any }) {
         }}
       >
         <TableHeader>
-          <TableColumn key="temperature" allowsSorting>
-            Temperature
+          <TableColumn key="id" allowsSorting>
+            Id
           </TableColumn>
-          <TableColumn key="humidity" allowsSorting>
-            Humidity
-          </TableColumn>
-          <TableColumn key="pressure" allowsSorting>
-            Pressure
+          <TableColumn key="employee" allowsSorting>
+            Employee
           </TableColumn>
           <TableColumn key="date" allowsSorting align="end">
             Date
+          </TableColumn>
+          <TableColumn key="weather_station" allowsSorting>
+            Weather station
           </TableColumn>
         </TableHeader>
         <TableBody items={items}>
@@ -135,7 +127,7 @@ export default function WeatherStationData({ res }: { res: any }) {
               {(columnKey) => (
                 <TableCell>
                   {columnKey != "date"
-                    ? getKeyValue(item, columnKey).toFixed(2)
+                    ? getKeyValue(item, columnKey)
                     : new Date(getKeyValue(item, columnKey)).toLocaleString()}
                 </TableCell>
               )}

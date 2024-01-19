@@ -15,9 +15,12 @@ type WeatherStation = {
 
 export default function WeatherStations() {
   return (
-    <main className="p-4 md:p-5 mx-auto max-w-7xl">
-      <h1 className="text-4xl font-bold	 py-4">Weather stations</h1>
-        <WeatherStationsTable />
+    <main
+      className="p-4 md:p-5 mx-auto max-w-7xl h-screen"
+      style={{ marginTop: "-64px", paddingTop: "94px" }}
+    >
+      <h1 className="text-4xl font-bold py-4">Weather stations</h1>
+      <WeatherStationsTable />
     </main>
   );
 }

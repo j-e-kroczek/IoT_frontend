@@ -13,25 +13,10 @@ import {
   Button,
   Pagination,
   getKeyValue,
+  CircularProgress,
 } from "@nextui-org/react";
 import useSWR from "swr";
 import WeatherStationData from "@/app/components/weatherStationData";
-
-type WeatherStation = {
-  id: number;
-  name: string;
-  surname: string;
-  phone_number: string;
-  is_active: boolean;
-};
-
-type WeatherItem = {
-  weather_station: "string";
-  temperature: "number";
-  humidity: "number";
-  pressure: "number";
-  date: Date;
-};
 
 const fetcher = (url: string | URL | Request) =>
   fetch(url).then((res) => res.json());
@@ -47,7 +32,9 @@ export default function WeatherStations({
   };
 
   const { data, error, isLoading } = useSWR(
-    "http://192.168.0.197:8000/api/weather_station/" +
+    "http://" +
+      process.env.API_URL +
+      ":8000/api/weather_station/" +
       params.weatherStationId +
       "/data/",
     fetcher,
@@ -59,15 +46,20 @@ export default function WeatherStations({
   }, [data]);
 
   return (
-    <main className="p-4 md:p-5 mx-auto max-w-7xl">
+    <main
+      className="p-4 md:p-5 mx-auto max-w-7xl h-screen"
+      style={{ marginTop: "-64px", paddingTop: "94px" }}
+    >
       {isLoading ? (
-        "Loading..."
+        <div className="flex justify-center items-center h-full">
+          <CircularProgress aria-label="Loading..." color="primary" />
+        </div>
       ) : (
         <>
           <h1 className="text-4xl font-bold	 py-4">
             Weather station - {data.station_name}
           </h1>
-          <WeatherStationData data={data.weather_data} />
+          <WeatherStationData res={data} />
         </>
       )}
     </main>

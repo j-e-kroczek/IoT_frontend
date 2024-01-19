@@ -21,7 +21,9 @@ type Employee = {
 };
 
 async function getData() {
-  const res = await fetch("http://192.168.0.197:8000/api/employee/");
+  const res = await fetch(
+    "http://" + process.env.API_URL + ":8000/api/employee/"
+  );
 
   if (!res.ok) {
     throw new Error("Failed to fetch data");
@@ -39,7 +41,10 @@ export default async function Employees() {
   const data = await getData();
 
   return (
-    <main className="p-4 md:p-5 mx-auto max-w-7xl">
+    <main
+      className="p-4 md:p-5 mx-auto max-w-7xl h-screen"
+      style={{ marginTop: "-64px", paddingTop: "94px" }}
+    >
       <h1 className="text-4xl font-bold	 py-4">Employees</h1>
       <Table isStriped aria-label="Example static collection table">
         <TableHeader>

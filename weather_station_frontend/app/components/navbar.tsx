@@ -19,6 +19,7 @@ function App() {
   const menuItems = [
     { name: "Employees", href: "/employees" },
     { name: "Weather stations", href: "/weather-stations" },
+    { name: "Card logs", href: "/card-logs" },
   ];
 
   return (
@@ -29,7 +30,9 @@ function App() {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold text-inherit">Weather Station</p>
+          <Link href="/">
+            <p className="font-bold text-inherit">Weather Station</p>
+          </Link>
         </NavbarBrand>
       </NavbarContent>
 
@@ -41,16 +44,6 @@ function App() {
             </Link>
           </NavbarItem>
         ))}
-      </NavbarContent>
-      <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
-          </Button>
-        </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
         {menuItems.map((item, index) => (

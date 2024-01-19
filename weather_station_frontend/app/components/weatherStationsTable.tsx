@@ -26,7 +26,9 @@ export default async function WeatherStationsTable() {
   };
 
   unstable_noStore();
-  let res = await fetch("http://192.168.0.197:8000/api/weather_station/");
+  let res = await fetch(
+    "http://" + process.env.API_URL + ":8000/api/weather_station/"
+  );
 
   if (!res.ok) {
     throw new Error("Failed to fetch data");
@@ -39,7 +41,7 @@ export default async function WeatherStationsTable() {
       <TableHeader>
         <TableColumn>NAME</TableColumn>
         <TableColumn>IS ACTIVE</TableColumn>
-        <TableColumn>DETAILS</TableColumn>
+        <TableColumn hideHeader>DETAILS</TableColumn>
       </TableHeader>
       <TableBody>
         {data.map((weatherStaion: WeatherStation) => (
