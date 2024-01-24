@@ -1,20 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Chip,
-  ChipProps,
-  Button,
-  Pagination,
-  getKeyValue,
-  CircularProgress,
-} from "@nextui-org/react";
+import { CircularProgress } from "@nextui-org/react";
 import useSWR from "swr";
 import WeatherStationData from "@/app/components/weatherStationData";
 
@@ -26,11 +13,6 @@ export default function WeatherStations({
 }: {
   params: { weatherStationId: string };
 }) {
-  const statusColorMap: Record<string, ChipProps["color"]> = {
-    active: "success",
-    inactive: "default",
-  };
-
   const { data, error, isLoading } = useSWR(
     "http://" +
       process.env.API_URL +

@@ -88,12 +88,13 @@ export default function WeatherStationData({ res }: { res: any }) {
 
   return (
     <>
-      <div className="flex justify-between py-10">
+      <div className="grid grid-cols-3 gap-10 py-10">
         <WeatherCard name="Temperature" value={latestReading.temperature} />
         <WeatherCard name="Humidity" value={latestReading.humidity} />
         <WeatherCard name="Pressure" value={latestReading.pressure} />
       </div>
       <Table
+        isStriped
         aria-label="Weather station data"
         className="pb-6"
         sortDescriptor={list.sortDescriptor}
@@ -104,7 +105,7 @@ export default function WeatherStationData({ res }: { res: any }) {
               isCompact
               showControls
               showShadow
-              color="secondary"
+              color="primary"
               page={page}
               total={pages}
               onChange={(page) => setPage(page)}

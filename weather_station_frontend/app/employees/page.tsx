@@ -1,80 +1,38 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Chip,
-  ChipProps,
-} from "@nextui-org/react";
+import { CircularProgress } from "@nextui-org/react";
 
-type Employee = {
-  id: number;
-  name: string;
-  surname: string;
-  phone_number: string;
-  is_active: boolean;
-};
+import useSWR from "swr";
+import EmployeesTable from "../components/employeesTable";
 
-async function getData() {
-  const res = await fetch(
-    "http://" + process.env.API_URL + ":8000/api/employee/"
-  );
+const fetcher = (url: string | URL | Request) =>
+  fetch(url).then((res) => res.json());
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  return res.json();
-}
-
-export default async function Employees() {
-  const statusColorMap: Record<string, ChipProps["color"]> = {
-    active: "success",
-    inactive: "default",
-  };
-
-  const data = await getData();
+export default function Employees() {
+  const {
+    data: employees,
+    error: error,
+    isLoading: isLoading,
+  } = useSWR("http://" + process.env.API_URL + ":8000/api/employee/", fetcher, {
+    refreshInterval: 5000,
+  });
 
   return (
     <main
       className="p-4 md:p-5 mx-auto max-w-7xl h-screen"
       style={{ marginTop: "-64px", paddingTop: "94px" }}
     >
-      <h1 className="text-4xl font-bold	 py-4">Employees</h1>
-      <Table isStriped aria-label="Example static collection table">
-        <TableHeader>
-          <TableColumn>NAME</TableColumn>
-          <TableColumn>SURNAME</TableColumn>
-          <TableColumn>PHONE NUMBER</TableColumn>
-          <TableColumn>IS ACTIVE</TableColumn>
-        </TableHeader>
-        <TableBody>
-          {data.map((employee: Employee) => (
-            <TableRow key={employee.id}>
-              <TableCell>{employee.name}</TableCell>
-              <TableCell>{employee.surname}</TableCell>
-              <TableCell>{employee.phone_number}</TableCell>
-              <TableCell>
-                <Chip
-                  className="capitalize"
-                  color={
-                    statusColorMap[employee.is_active ? "active" : "inactive"]
-                  }
-                  size="sm"
-                  variant="flat"
-                >
-                  {employee.is_active ? "active" : "inactive"}
-                </Chip>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      {isLoading ? (
+        <div className="flex justify-center items-center h-full">
+          <CircularProgress aria-label="Loading..." />
+        </div>
+      ) : (
+        <>
+          <h1 className="text-4xl font-bold	 py-4">Card logs</h1>
+          <EmployeesTable data={employees} />
+        </>
+      )}
     </main>
   );
 }

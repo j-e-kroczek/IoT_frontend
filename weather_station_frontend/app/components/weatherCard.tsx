@@ -54,7 +54,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ name, value }) => {
       break;
   }
   return (
-    <Card className="p-4 w-80">
+    <Card className="p-4 w-100">
       <div className="flex justify-center items-center h-full">
         <Image alt="Card background pe-5" src={img} width={100} />
         <div className="ps-5 pe-4 flex justify-center">

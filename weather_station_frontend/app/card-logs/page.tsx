@@ -1,20 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Chip,
-  ChipProps,
-  Button,
-  Pagination,
-  getKeyValue,
-  CircularProgress,
-} from "@nextui-org/react";
+import { CircularProgress } from "@nextui-org/react";
 import useSWR from "swr";
 import CardLogsTable from "../components/cardLogsTable";
 
@@ -22,11 +9,6 @@ const fetcher = (url: string | URL | Request) =>
   fetch(url).then((res) => res.json());
 
 export default function CardLogs() {
-  const statusColorMap: Record<string, ChipProps["color"]> = {
-    active: "success",
-    inactive: "default",
-  };
-
   const {
     data: cardLogs,
     error: cardLogsError,
@@ -92,7 +74,6 @@ export default function CardLogs() {
       (employee: any) => employee.id === cardLog.employee
     );
     return {
-      id: cardLog.id,
       weather_station: cardLog.weather_station,
       employee:
         employee?.surname + " " + employee?.name + " " + employee?.phone_number,
