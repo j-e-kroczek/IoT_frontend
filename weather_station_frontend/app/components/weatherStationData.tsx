@@ -88,7 +88,7 @@ export default function WeatherStationData({ res }: { res: any }) {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-10 py-10">
+      <div className="grid min-[1150px]:grid-cols-3 min-[600px]:grid-cols-2 min-[100px]:grid-cols-1 gap-10 py-10">
         <WeatherCard name="Temperature" value={latestReading.temperature} />
         <WeatherCard name="Humidity" value={latestReading.humidity} />
         <WeatherCard name="Pressure" value={latestReading.pressure} />

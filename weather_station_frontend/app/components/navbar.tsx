@@ -11,6 +11,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
+  Image,
 } from "@nextui-org/react";
 
 function App() {
@@ -25,15 +26,23 @@ function App() {
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="xl">
       <NavbarContent>
+        <NavbarBrand>
+          <Link href="/">
+            <div className="flex items-center h-100">
+              <Image
+                src="/images/logo.png"
+                alt="Weather Station Logo"
+                width={40}
+                height={40}
+              />
+              <p className="ms-3 font-bold text-inherit">Weather Station</p>
+            </div>
+          </Link>
+        </NavbarBrand>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
-        <NavbarBrand>
-          <Link href="/">
-            <p className="font-bold text-inherit">Weather Station</p>
-          </Link>
-        </NavbarBrand>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">

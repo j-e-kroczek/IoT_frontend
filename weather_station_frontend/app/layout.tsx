@@ -19,11 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={
-          inter.className + " bg-gradient-to-tl from-cyan-300 to-cyan-50"
-        }
-      >
+      <body className={inter.className}>
         <Providers>
           <Toaster />
           <Navbar />

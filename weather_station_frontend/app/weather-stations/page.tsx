@@ -22,7 +22,7 @@ export default function WeatherStations() {
   );
   return (
     <main
-      className="p-4 md:p-5 mx-auto max-w-7xl h-screen"
+      className="p-4 md:p-5 mx-auto max-w-7xl"
       style={{ marginTop: "-64px", paddingTop: "94px" }}
     >
       {isLoading ? (
@@ -31,7 +31,7 @@ export default function WeatherStations() {
         </div>
       ) : (
         <>
-          <h1 className="text-4xl font-bold	 py-4">Weather stations</h1>
+          <h1 className="text-4xl opacity-70 py-4">Weather stations</h1>
           <WeatherStationsTable data={data} />
         </>
       )}
