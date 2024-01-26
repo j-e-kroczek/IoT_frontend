@@ -29,7 +29,7 @@ type Item = {
 
 export default function EmployeeWorkTimeTable({ data }: { data: WorkTime[] }) {
   const [page, setPage] = React.useState(1);
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
   const pages = Math.ceil(data.length / rowsPerPage);
 
   let list = useAsyncList<Item>({
@@ -130,7 +130,9 @@ export default function EmployeeWorkTimeTable({ data }: { data: WorkTime[] }) {
                 <TableCell>
                   {columnKey != "start_date" && columnKey != "end_date"
                     ? getKeyValue(item, columnKey)
-                    : new Date(getKeyValue(item, columnKey)).toLocaleString()}
+                    : columnKey == "end_date" && getKeyValue(item, columnKey) == "" 
+                    ? getKeyValue(item, columnKey)
+                    : new Date(getKeyValue(item, columnKey)).toLocaleString() }
                 </TableCell>
               )}
             </TableRow>

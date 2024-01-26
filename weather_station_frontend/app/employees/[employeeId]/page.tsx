@@ -8,7 +8,7 @@ import EmployeeWorkTimeTable from "@/app/components/employeeWorkTimeTable";
 const fetcher = (url: string | URL | Request) =>
   fetch(url).then((res) => res.json());
 
-export default function WeatherStations({
+export default function EmployeeWorkTime({
   params,
 }: {
   params: { employeeId: string };
@@ -43,12 +43,12 @@ export default function WeatherStations({
     return {
       id: workTime.id,
       start_date: workTime.start_date,
-      end_date: workTime.end_date,
+      end_date: workTime.end_date ? workTime.end_date : "",
       start_station: weatherStations?.find(
         (item: any) => item.id === workTime.start_station.id
       )?.name,
       end_station: weatherStations?.find(
-        (item: any) => item.id === workTime.end_station.id
+        (item: any) => workTime.end_station ? item.id === workTime.end_station.id : item.id === workTime.start_station.id
       )?.name,
     };
   });
