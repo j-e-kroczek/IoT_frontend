@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { CircularProgress } from "@nextui-org/react";
+import { Button, CircularProgress } from "@nextui-org/react";
 import useSWR from "swr";
 import WeatherStationData from "@/app/components/weatherStationData";
 
@@ -38,9 +38,18 @@ export default function WeatherStations({
         </div>
       ) : (
         <>
-          <h1 className="text-4xl opacity-70	 py-4">
-            Weather station - {data.station_name}
-          </h1>
+          <div className="flex justify-between items-center flex-wrap">
+            <h1 className="text-4xl opacity-70 my-4">
+              Weather station - {data.station_name}
+            </h1>
+            <Button className="my-4 px-5 py-3" color="primary">
+              <a
+                href={`/weather-stations/${params.weatherStationId}/statistics`}
+              >
+                Statistics
+              </a>
+            </Button>
+          </div>
           <WeatherStationData res={data} />
         </>
       )}
