@@ -10,27 +10,26 @@ import {
   TableCell,
   Pagination,
   getKeyValue,
-  Chip,
-  ChipProps,
-  Button,
 } from "@nextui-org/react";
+import { unstable_noStore } from "next/cache";
 import { useAsyncList } from "@react-stately/data";
+import WeatherCard from "./weatherCard";
 
-type Employee = {
+type WorkTime = {
   id: string;
-  name: string;
-  surname: string;
-  phone_number: string;
-  is_active: boolean;
+  start_date: string;
+  end_date: string;
+  start_station: string;
+  end_station: string;
 };
 
 type Item = {
-  [key: string]: string | string | string | boolean;
+  [key: string]: string | Date | Date | string | string;
 };
 
-export default function EmployeesTable({ data }: { data: Employee[] }) {
+export default function EmployeeWorkTimeTable({ data }: { data: WorkTime[] }) {
   const [page, setPage] = React.useState(1);
-  const rowsPerPage = 10;
+  const rowsPerPage = 5;
   const pages = Math.ceil(data.length / rowsPerPage);
 
   let list = useAsyncList<Item>({
@@ -40,6 +39,24 @@ export default function EmployeesTable({ data }: { data: Employee[] }) {
       };
     },
     async sort({ items, sortDescriptor }) {
+      if (sortDescriptor.column === "date") {
+        return {
+          items: items.sort((a, b) => {
+            if (sortDescriptor && sortDescriptor.column) {
+              let first = new Date(a[sortDescriptor.column]);
+              let second = new Date(b[sortDescriptor.column]);
+              let cmp = first < second ? -1 : 1;
+
+              if (sortDescriptor.direction === "descending") {
+                cmp *= -1;
+              }
+
+              return cmp;
+            }
+            return 0;
+          }),
+        };
+      }
       return {
         items: items.sort((a, b) => {
           if (!sortDescriptor || !sortDescriptor.column) {
@@ -67,16 +84,11 @@ export default function EmployeesTable({ data }: { data: Employee[] }) {
     return list.items.slice(start, end);
   }, [page, list.items]);
 
-  const statusColorMap: Record<string, ChipProps["color"]> = {
-    active: "success",
-    inactive: "default",
-  };
-
   return (
     <>
       <Table
         isStriped
-        aria-label="Employees table"
+        aria-label="Employee work time table"
         className="pb-6"
         sortDescriptor={list.sortDescriptor}
         onSortChange={list.sort}
@@ -98,20 +110,17 @@ export default function EmployeesTable({ data }: { data: Employee[] }) {
         }}
       >
         <TableHeader>
-          <TableColumn key="name" allowsSorting>
-            Name
+          <TableColumn key="start_date" allowsSorting>
+            Start date
           </TableColumn>
-          <TableColumn key="surname" allowsSorting>
-            Surname
+          <TableColumn key="end_date" allowsSorting>
+            End date
           </TableColumn>
-          <TableColumn key="phone_number" allowsSorting>
-            Phone number
+          <TableColumn key="start_station" allowsSorting>
+            Start station
           </TableColumn>
-          <TableColumn key="is_active" allowsSorting align="end">
-            Is active
-          </TableColumn>
-          <TableColumn key="details" allowsSorting hideHeader>
-            Details
+          <TableColumn key="end_station" allowsSorting>
+            End station
           </TableColumn>
         </TableHeader>
         <TableBody items={items}>
@@ -119,28 +128,9 @@ export default function EmployeesTable({ data }: { data: Employee[] }) {
             <TableRow key={(item as { date: string }).date}>
               {(columnKey) => (
                 <TableCell>
-                  {columnKey == "is_active" ? (
-                    <Chip
-                      className="capitalize"
-                      color={
-                        statusColorMap[
-                          getKeyValue(item, columnKey) ? "active" : "inactive"
-                        ]
-                      }
-                      size="sm"
-                      variant="flat"
-                    >
-                      {getKeyValue(item, columnKey) ? "active" : "inactive"}
-                    </Chip>
-                  ) : columnKey == "details" ? (
-                    <div className="flex justify-end">
-                      <Button>
-                        <a href={`/employees/${item.id}`}>Details</a>
-                      </Button>
-                    </div>
-                  ) : (
-                    getKeyValue(item, columnKey)
-                  )}
+                  {columnKey != "start_date" && columnKey != "end_date"
+                    ? getKeyValue(item, columnKey)
+                    : new Date(getKeyValue(item, columnKey)).toLocaleString()}
                 </TableCell>
               )}
             </TableRow>
