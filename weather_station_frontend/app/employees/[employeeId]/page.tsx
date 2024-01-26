@@ -38,6 +38,7 @@ export default function WeatherStations({
     }
   );
 
+  const employee = workTimes?.[0]?.employee;
   const data = workTimes?.map((workTime: any) => {
     return {
       id: workTime.id,
@@ -66,7 +67,9 @@ export default function WeatherStations({
       ) : (
         <>
           <div className="flex justify-between items-center flex-wrap">
-            <h1 className="text-4xl opacity-70 my-4">Employee</h1>
+            <h1 className="text-4xl opacity-70 my-4">
+              {employee.name + " " + employee.surname} - Work time
+            </h1>
           </div>
           <EmployeeWorkTimeTable data={data} />
         </>
