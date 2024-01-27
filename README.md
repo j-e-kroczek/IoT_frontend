@@ -34,16 +34,19 @@ Project was created using Node js v20.11.0.
 ## **Tailwind CSS**
 
 Default Next.js toolkit.
+
 [Go To Documentation](https://tailwindui.com/documentation)
 
 ## **Next UI**
 
 Beautiful, fast and modern React UI library.
+
 [Go To Documentation](https://nextui.org/docs/guide/introduction)
 
 ## **Tremor**
 
 Another beautiful React UI library. In this project it was used to display charts.
+
 [Go To Documentation](https://www.tremor.so/docs/getting-started/installation)
 
 ### **Fetch**
